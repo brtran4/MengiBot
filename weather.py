@@ -1,11 +1,9 @@
 import requests
 baseURL = "http://api.openweathermap.org/data/2.5/weather?"
-APIKEY = "8b7f86aa407415a8493c1c4f8926ac64"
 
 def weather(city):
   cityName = city
   completeURL = baseURL +  "q=" + cityName + "&appid=" + APIKEY
-  print(completeURL)
   response = requests.get(completeURL)
   x = response.json()
 
@@ -20,7 +18,7 @@ def weather(city):
 
       title = "Current weather in " + cityName + ":"
       description = "\nDescripition: " + str(weatherDescription)
-      ftemp= "\nTemperature(F): " + str(int(currentTempCelsius) * (9/5) + 32) + "°F"
+      ftemp= "\nTemperature(F): " + str(round(int(currentTempCelsius) * (9/5) + 32)) + "°F"
       ctemp = "\nTemperature(C): " + str(currentTempCelsius) + "°C"
       humidity ="\nHumidity(%): " + str(currentHumidity) + "%"
       pressure ="\nAtmospheric Pressure(hPa): " + str(currentPressure) + " hPa"

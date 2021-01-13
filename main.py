@@ -66,7 +66,6 @@ async def on_message(message):
 
   if msg.startswith("!weather"):
     cityName = msg.split("!weather ", 1)[1]
-    print(cityName)
     await message.channel.send(weather(cityName))
 
 keep_alive()
