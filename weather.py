@@ -1,9 +1,10 @@
 import requests
+import os
 baseURL = "http://api.openweathermap.org/data/2.5/weather?"
 
 def weather(city):
   cityName = city
-  completeURL = baseURL +  "q=" + cityName + "&appid=" + APIKEY
+  completeURL = baseURL +  "q=" + cityName + "&appid=" + os.getenv("APIKEY")
   response = requests.get(completeURL)
   x = response.json()
 
