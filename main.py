@@ -1,6 +1,7 @@
-import discord #discord documentation runs on events
+import discord # discord documentation runs on events
 import os # takes private token and passes to the client
 import random
+import math
 from replit import db # uses repl.it database
 from keep_alive import keep_alive
 from weather import weather
@@ -9,8 +10,14 @@ from encouragements import starterEncouragements
 from encouragements import deleteEncouragment
 from encouragements import getQuote
 from encouragements import sadWords
+from pomo import focus
+from pomo import relax
 
 client = discord.Client()
+
+studyActive = {}
+relaxActive = {}
+
 
 @client.event
 async def on_ready():
@@ -67,6 +74,20 @@ async def on_message(message):
   if msg.startswith("!weather"):
     cityName = msg.split("!weather ", 1)[1]
     await message.channel.send(weather(cityName))
+
+  if msg.startswith("!focus"):
+    if message.author in studyActive:
+      await message.channel.send("You still have {} minutes left, {}".format(math.ceil(studyActive[message.author]/60), message.author.mention)) 
+      return
+    minutes = int(msg.split("!focus ", 1)[1])
+    await focus(minutes, message, studyActive)
+  
+  if msg.startswith("!relax"):
+    if message.author in relaxActive:
+      await message.channel.send("You still have {} minutes left, {}".format(math.ceil(relaxActive[message.author]/60), message.author.mention)) 
+      return
+    minutes = int(msg.split("!relax ", 1)[1])
+    await relax(minutes, message, relaxActive)
 
 keep_alive()
 client.run(os.getenv("TOKEN"))
